@@ -2,4 +2,4 @@ resource_group_name   = "terraform-storage"
 storage_account_name  = "ulyterrastor"
 container_name        = "terraform"
 key                   = "github-actions.tfstate"
-use_msi               = true
+subscription_id       = "c29a99cc-ec40-4b28-8d9f-d36431a58c64"
