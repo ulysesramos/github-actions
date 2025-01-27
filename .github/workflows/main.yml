@@ -34,14 +34,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Cr age
-      uses: Azure/cli@v1.0.6
-      with:
-        # Azure CLI version to be used to execute the script. If not provided, latest version is used
-        # azcliversion: 2.34.1 # optional, default is agentazcliversion
-        inlineScript: |
-          az version
-                
     - name: Login to Azure with Service Principal
       uses: Azure/login@v1
       with:
@@ -89,7 +81,7 @@ jobs:
     
     - name: Terraform Init
       id: init
-      run: terraform -chdir=../terraform init -input=false -backend-config=${{ github.workspace }}/.tfbackend/backend
+      run: terraform -chdir=${{ github.workspace }}/terraform init -input=false -backend-config=${{ github.workspace }}/.tfbackend/backend
 
     # # Install the latest version of Terraform CLI
     # - name: Install Terraform
