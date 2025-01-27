@@ -82,7 +82,7 @@ jobs:
     
     - name: Terraform Init
       id: init
-      run: terraform -chdir=${{ env.WORKING_DIRECTORY }} init -input=false -backend-config=/home/runner/work/github-actions/.tfbackend/backend
+      run: terraform -chdir=/home/runner/work/github-actions/terraform init -input=false -backend-config=/home/runner/work/github-actions/.tfbackend/backend
 
     # # Install the latest version of Terraform CLI
     # - name: Install Terraform
