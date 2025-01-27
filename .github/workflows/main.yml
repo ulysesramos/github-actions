@@ -68,6 +68,11 @@ jobs:
           # Create blob container
           az storage container create --name $CONTAINER_NAME --account-name $STORAGE_ACCOUNT_NAME
           
+          ls
+          cd ..
+          ls
+          cd ..
+          ls
           # generate backend.tf file
           cd $WORKING_DIRECTORY
           cat <<EOT > backend.tf
