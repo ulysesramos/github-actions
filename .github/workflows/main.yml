@@ -85,26 +85,34 @@ jobs:
 
     # Install the latest version of Terraform CLI
     - name: Install Terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: 1.1.7
+      uses: hashicorp/setup-terraform@v3.0.0
     
     - name: Terraform Init
       id: init
-      env:
-        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      run: |
-        # Initialize a new or existing Terraform working directory by creating initial files, 
-        # loading any remote state, downloading modules, etc.
-        # terraform init
-        terraform -chdir=terraform init -input=false -backend-config=${{ github.workspace }}/.tfbackend/backend
-        # Either use the backend.tf file with the config inside or use the following command line
-        # terraform init -backend-config="storage_account_name=$STORAGE_ACCOUNT_NAME" \
-        #                -backend-config="container_name=$CONTAINER_NAME" \
-        #                -backend-config="resource_group_name=$RESOURCE_GROUP_NAME"
+      run: terraform -chdir=terraform init -input=false -backend-config=${{ github.workspace }}/.tfbackend/backend
+
+    # # Install the latest version of Terraform CLI
+    # - name: Install Terraform
+    #   uses: hashicorp/setup-terraform@v1
+    #   with:
+    #     terraform_version: 1.1.7
+    
+    # - name: Terraform Init
+    #   id: init
+    #   env:
+    #     ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+    #     ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+    #     ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+    #     ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+    #   run: |
+    #     # Initialize a new or existing Terraform working directory by creating initial files, 
+    #     # loading any remote state, downloading modules, etc.
+    #     # terraform init
+    #     terraform -chdir=terraform init -input=false -backend-config=${{ github.workspace }}/.tfbackend/backend
+    #     # Either use the backend.tf file with the config inside or use the following command line
+    #     # terraform init -backend-config="storage_account_name=$STORAGE_ACCOUNT_NAME" \
+    #     #                -backend-config="container_name=$CONTAINER_NAME" \
+    #     #                -backend-config="resource_group_name=$RESOURCE_GROUP_NAME"
   
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
