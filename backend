@@ -1,0 +1,5 @@
+resource_group_name   = "terraform-storage"
+storage_account_name  = "ulyterrastor"
+container_name        = "terraform"
+key                   = "github-actions.tfstate"
+use_msi               = true
