@@ -15,7 +15,7 @@ env:
   RESOURCE_GROUP_NAME: terraform-storage
   CONTAINER_NAME: terraform
   BLOB_NAME: github-actions.tfstate
-  WORKING_DIRECTORY: github-actions
+  WORKING_DIRECTORY: github
 
 jobs:
   deploy-azure-infra-terraform:
@@ -71,7 +71,7 @@ jobs:
           ls
           cd ..
           ls
-          cd ..
+          cd github
           ls
           # generate backend.tf file
           cd $WORKING_DIRECTORY
