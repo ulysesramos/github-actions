@@ -32,7 +32,7 @@ jobs:
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4.1.1
 
 
     - name: Login to Azure with Service Principal
@@ -40,41 +40,42 @@ jobs:
       with:
         # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+        enable-AZPSSession: true
 
-    - name: Create Terraform backend state storage
-      uses: Azure/cli@v1.0.6
-      with:
-        # Azure CLI version to be used to execute the script. If not provided, latest version is used
-        # azcliversion: 2.34.1 # optional, default is agentazcliversion
-        inlineScript: |
-          az version
+    # - name: Create Terraform backend state storage
+    #   uses: Azure/cli@v1.0.6
+    #   with:
+    #     # Azure CLI version to be used to execute the script. If not provided, latest version is used
+    #     # azcliversion: 2.34.1 # optional, default is agentazcliversion
+    #     inlineScript: |
+    #       az version
 
-          # Create resource group
-          az group create --name $RESOURCE_GROUP_NAME --location westus
+    #       # Create resource group
+    #       az group create --name $RESOURCE_GROUP_NAME --location westus
           
-          # Create storage account
-          az storage account create --name $STORAGE_ACCOUNT_NAME \
-             --resource-group $RESOURCE_GROUP_NAME \
-             --sku Standard_LRS \
-             --encryption-services blob
+    #       # Create storage account
+    #       az storage account create --name $STORAGE_ACCOUNT_NAME \
+    #          --resource-group $RESOURCE_GROUP_NAME \
+    #          --sku Standard_LRS \
+    #          --encryption-services blob
           
-          # Create blob container
-          az storage container create --name $CONTAINER_NAME --account-name $STORAGE_ACCOUNT_NAME
+    #       # Create blob container
+    #       az storage container create --name $CONTAINER_NAME --account-name $STORAGE_ACCOUNT_NAME
           
-          # generate backend.tf file
-          #cd $WORKING_DIRECTORY
-          cat <<EOT > backend.tf
-          terraform {
-            backend "azurerm" {
-              resource_group_name   = "$RESOURCE_GROUP_NAME"
-              storage_account_name  = "$STORAGE_ACCOUNT_NAME"
-              container_name        = "$CONTAINER_NAME"
-              key                   = "$BLOB_NAME"
-            }
-          }
-          EOT
+    #       # generate backend.tf file
+    #       #cd $WORKING_DIRECTORY
+    #       cat <<EOT > backend.tf
+    #       terraform {
+    #         backend "azurerm" {
+    #           resource_group_name   = "$RESOURCE_GROUP_NAME"
+    #           storage_account_name  = "$STORAGE_ACCOUNT_NAME"
+    #           container_name        = "$CONTAINER_NAME"
+    #           key                   = "$BLOB_NAME"
+    #         }
+    #       }
+    #       EOT
           
-          cat backend.tf
+    #       cat backend.tf
 
     # Install the latest version of Terraform CLI
     - name: Install Terraform
@@ -82,7 +83,7 @@ jobs:
     
     - name: Terraform Init
       id: init
-      run: terraform -chdir=terraform init -input=false -backend-config=/home/runner/work/github-actions/.tfbackend/backend
+      run: terraform -chdir=terraform init -input=false -backend-config=${{ github.workspace }}/.tfbackend/backend
 
     # # Install the latest version of Terraform CLI
     # - name: Install Terraform
