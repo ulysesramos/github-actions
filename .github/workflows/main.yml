@@ -15,7 +15,7 @@ env:
   RESOURCE_GROUP_NAME: terraform-storage
   CONTAINER_NAME: terraform
   BLOB_NAME: github-actions.tfstate
-  WORKING_DIRECTORY: github-actions
+  WORKING_DIRECTORY: terraform
 
 jobs:
   deploy-azure-infra-terraform:
@@ -27,12 +27,13 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: "github-actions"
+        working-directory: ${{ env.WORKING_DIRECTORY }}
 
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v2
+
 
     - name: Login to Azure with Service Principal
       uses: Azure/login@v1
@@ -81,7 +82,7 @@ jobs:
     
     - name: Terraform Init
       id: init
-      run: terraform -chdir=terraform init -input=false -backend-config=.tfbackend/backend
+      run: terraform -chdir=${{ env.WORKING_DIRECTORY }} init -input=false -backend-config=/home/runner/work/github-actions/.tfbackend/backend
 
     # # Install the latest version of Terraform CLI
     # - name: Install Terraform
