@@ -3,10 +3,10 @@ variable "resource_group_name" {
   type        = string
 }
 
-# variable "location" {
-#   description = "The location of the resource group"
-#   type        = string
-# }
+variable "location" {
+  description = "The location of the resource group"
+  type        = string
+}
 
 # variable "vnet_name" {
 #   description = "The name of the virtual network"
