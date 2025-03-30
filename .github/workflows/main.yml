@@ -3,7 +3,7 @@ name: 'Create Infra with Terraform'
 
 on:
   push:
-    branches: [ main ]
+    branches: [ mains ]
     paths: .github/workflows/main.yml
   pull_request:
     branches:  none # [ main ]
